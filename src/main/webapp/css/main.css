@@ -1,0 +1,25 @@
+*{
+    margin: 0 auto;
+    text-align: center;
+}
+a{
+    text-decoration: none;
+}
+table{
+    border: 2px solid #929191;
+}
+tr:hover{
+    background: #2d93ca;
+}
+td{
+    text-align: center;
+    border: 1px solid black;
+    width: auto;
+    height: 77px;
+    padding: 10px;
+}
+td:hover{
+    background: #00f7de;
+
+}
+

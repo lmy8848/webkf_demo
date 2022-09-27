@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CloudMusic</title>
+    <style>
+        * {
+            margin: 0 auto;
+        }
+
+        .main {
+            width: 1334.2px;
+            height: auto;
+            margin-top: 100px;
+            background: #0ed78b;
+        }
+
+        .cloud {
+            width: 300px;
+            height: 150px;
+
+        }
+
+        .input_url {
+            width: 300px;
+
+        }
+
+        .top {
+        }
+
+        .btn {
+            width: 300px;
+        }
+
+        td {
+            width: 150px;
+            height: 100px;
+            border: 3px solid chocolate;
+            text-align: center;
+        }
+
+        .navbar-nav > li {
+            display: inline-block;
+            list-style: none;
+            /*float: right;*/
+        }
+
+        .navbar-header {
+            float: left;
+        }
+
+        #huxblog_navbar {
+            float: right;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+    <script src="jquery-3.5.1.js" type="text/javascript"></script>
+    <script src="md5.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="banner"></div>
+<div class="main">
+    <div class="cloud">
+        <audio controls id="audio" autoplay="autoplay">
+            <source id="could_link" type="audio/mpeg">
+        </audio>
+        <br>
+        <input type="button" class="btn" onclick="javascript:f()" value="测试">
+        <br>
+        <input type="text" class="input_url" placeholder="请输入网易云歌曲链接" id="input_url">
+    </div>
+    <div>
+        <!--        <h2 style="font-family: 楷体,serif;text-align: center;font-size: 32px"><b>购物车</b></h2>-->
+        <!--        <table>-->
+        <!--            <tr class="tag_tab">-->
+        <!--                <td><h2><b class="tab">商品名称</b></h2></td>-->
+        <!--                <td><h2><b class="tab">价格</b></h2></td>-->
+        <!--                <td><h2><b class="tab">数量</b></h2></td>-->
+        <!--                <td><h2><b class="tab">金额</b></h2></td>-->
+        <!--            </tr>-->
+        <!--            <tr class="tag_tab">-->
+        <!--                <td><h3><b class="tab">苹果</b></h3></td>-->
+        <!--                <td><h3><b class="tab">3.5</b></h3></td>-->
+        <!--                <td><h3><b class="tab">5</b></h3></td>-->
+        <!--                <td><h3><b class="tab"></b></h3></td>-->
+        <!--            </tr>-->
+        <!--            <tr class="tag_tab">-->
+        <!--                <td><h3><b class="tab">香蕉</b></h3></td>-->
+        <!--                <td><h3><b class="tab">4</b></h3></td>-->
+        <!--                <td><h3><b class="tab">7</b></h3></td>-->
+        <!--                <td><h3><b class="tab"></b></h3></td>-->
+        <!--            </tr>-->
+        <!--            <tr class="tag_tab">-->
+        <!--                <td><h3><b class="tab">梨</b></h3></td>-->
+        <!--                <td><h3><b class="tab">2</b></h3></td>-->
+        <!--                <td><h3><b class="tab">4</b></h3></td>-->
+        <!--                <td><h3><b class="tab"></b></h3></td>-->
+        <!--            </tr>-->
+        <!--            <tr class="tag_tab">-->
+        <!--                <td><h3><b class="tab">橘子</b></h3></td>-->
+        <!--                <td><h3><b class="tab">5</b></h3></td>-->
+        <!--                <td><h3><b class="tab">2</b></h3></td>-->
+        <!--                <td><h3><b class="tab"></b></h3></td>-->
+        <!--            </tr>-->
+        <!--            <tr class="tag_tab">-->
+        <!--                <td><h3><b class="tab">栗子</b></h3></td>-->
+        <!--                <td><h3><b class="tab">18</b></h3></td>-->
+        <!--                <td><h3><b class="tab">1</b></h3></td>-->
+        <!--                <td><h3><b class="tab"></b></h3></td>-->
+        <!--            </tr>-->
+        <!--        </table>-->
+        <div
+                style="text-align: center;">
+            <!--            <input type="number" id="min">-->
+            <!--            <span style="display: inline-block"><h4>到</h4></span>-->
+            <!--            <input type="number" id="max">-->
+            <!--            <input type="button" value="查询" onclick="interval()">-->
+            <label>
+                <input type="text" placeholder="请输入聊天昵称" id="username"
+                       oninput="if(value.length>10)value=value.slice(0,10)">
+            </label>
+            <input type="button" value="WebSocket服务端昵称提交测试" id="submit" onclick="isName()">
+            <div id="websocket" style="text-align: center">
+                <h3><b>消息列表</b></h3>
+            </div>
+            <div><input type="text" id="message" disabled="disabled"><input type="button" value="WebSocket发送" id="send"
+                                                                            onclick="WebSocketTest()"
+                                                                            disabled="disabled">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+//    let ispwd = true;
+//    while (ispwd) {
+//        const s = window.prompt("请输入密码", "");
+//        var pwd = md5(s+"");
+//        if (s) {
+//            if (pwd === "a585b1f1d3012fdcb64005fe5eb29e37") {
+//                console.log(pwd);
+//                ispwd = false;
+//            } else if (s) {
+//                ispwd = true;
+//            }
+//        } else {
+//            ispwd = true;
+//        }
+//
+//    }
+
+    // const elementsByTagName = document.getElementsByClassName("tab");
+    // for (let i = 4; i < elementsByTagName.length; i++) {
+    //     if (i % 4 === 0) {
+    //         if (elementsByTagName[i + 3] != null) {
+    //             let inner1 = elementsByTagName[i + 1].innerHTML;
+    //             let inner2 = elementsByTagName[i + 2].innerHTML;
+    //             elementsByTagName[i + 3].innerHTML = parseFloat(inner1) * parseFloat(inner2);
+    //         }
+    //     }
+    // }
+
+    // function interval() {
+    //     var vaulemin = document.getElementById("min").value;
+    //     var vaulemax = document.getElementById("max").value;
+    //     if (vaulemin !== "" && vaulemax !== "") {
+    //         for (let i = 4; i <= elementsByTagName.length; i++) {
+    //             if (i % 4 === 0) {
+    //                 if (elementsByTagName[i + 3] != null) {
+    //                     const number = parseFloat(elementsByTagName[i + 1].innerHTML);
+    //                     console.log(number + "" + i);
+    //                     if (number >= parseFloat(vaulemin) && number <= parseFloat(vaulemax)) {
+    //                         const elementsByClassName = document.getElementsByClassName("tag_tab");
+    //                         elementsByClassName[(i / 4)].style = 'visibility: visible';//visibility: visible hidden
+    //                     } else {
+    //                         const elementsByClassName = document.getElementsByClassName("tag_tab");
+    //                         elementsByClassName[(i / 4)].style = 'visibility: hidden';//visibility: visible hidden
+    //                         // elementsByClassName[(i/4)].style='float: top';//visibility: visible hidden
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     } else {
+    //         alert("请输入范围,不能为空！");
+    //     }
+    // }
+
+    // document.getElementById("could_link").src="http://music.163.com/song/media/outer/url?id=1879526327.mp3";
+    function f() {
+        const url = document.getElementById("input_url").value;
+        if (url !== "") {
+            var settings = {
+                "url": "http://39.105.77.85:8848/api/out_link?url=" + url,
+                "method": "GET",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    "url": ""
+                }),
+            };
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+                const audio = document.getElementById("audio");
+                audio.src = response.url;
+                audio.loop = true;
+                audio.play();
+                audio.addEventListener('canplay', canPlay, false);
+                // document.getElementById("could_link").src=response.url;
+                // https://ip.cn/api/index?ip=&type=0 ip地址出口查询
+            });
+
+        } else {
+            alert("请输入网易云歌曲分享链接！");
+        }
+        // document.write(url);
+    }
+
+
+    function isName() {
+        const value = document.getElementById("username");
+        const btn = document.getElementById("submit");
+        const message = document.getElementById("message");
+        const send = document.getElementById("send");
+        if (value.value !== "") {
+            value.disabled = true;
+            btn.disabled = true;
+            message.disabled = false;
+            send.disabled = false;
+
+        } else {
+            alert("请输入WebSocket UserName");
+            message.disabled = true;
+            send.disabled = true;
+        }
+
+    }
+
+    let isclose;
+    let ws;
+    let usernames;
+    isclose = false;
+
+    function WebSocketTest() {
+
+        const value = document.getElementById("message").value;
+        // if (websocket.readyState===WebSocket.CLOSED){}
+        if (value !== "") {
+
+            if (!isclose) {
+                var websocket = document.getElementById("websocket");
+                if ("WebSocket" in window) {
+                    alert("WebSocket 支持!");
+                    // 打开WebSocket
+                    usernames = document.getElementById("username").value;
+                    ws = new WebSocket("ws://110.42.174.137:6479/websocket/" + usernames);
+                    ws.onopen = function () {
+                        // Web Socket is connected, send data using send()
+                        isclose = true;
+                        ws.send(value);
+                        // alert("Message is sending");
+                    };
+                    ws.onmessage = function (evt) {
+                        const received_msg = evt.data;
+                        const parse = JSON.parse(received_msg);
+                        console.log(received_msg);
+                        var h3 = websocket.getElementsByTagName("h3");
+                        const htmlElement = document.createElement("h4");
+                        htmlElement.innerHTML = '<h4><b>' + "" + parse.username + ":" + parse.message + '</b></h4>';
+                        websocket.appendChild(htmlElement);
+                        //跳转到底部
+                        window.scrollTo(0, document.documentElement.scrollHeight - document.documentElement.clientHeight);
+                        // alert("Message is received"+parse.message);
+                    };
+                    ws.onclose = function () {
+                        // websocket is closed
+                        isclose = false;
+                        alert("Connection is closed");
+                    };
+                } else {
+                    // The browser doesn't support WebSocket
+                    alert("WebSocket 不支持!!!");
+                }
+
+            } else {
+                if (ws.readyState === WebSocket.CLOSED) {
+                    isclose = false;
+                } else {
+                    ws.send(value);
+                }
+            }
+        } else {
+            alert("请输入消息内容！");
+
+        }
+    }
+</script>
+</body>
+</html>
