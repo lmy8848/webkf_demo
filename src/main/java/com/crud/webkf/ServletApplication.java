@@ -4,7 +4,6 @@ import com.crud.webkf.bean.User;
 import com.crud.webkf.dao.Dao;
 import com.crud.webkf.dao.DaoImp;
 import com.crud.webkf.util.Tools;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -67,7 +66,19 @@ public class ServletApplication extends HttpServlet {
                 if (page != null && !page.equals("")) {
                     i = Integer.parseInt(page);
                     if (i != 1) {
-                        List<User> list = dao.limitQuery((i - 1) * 9, 9);
+                        if (i==length){
+                            List<User> list = dao.limitQuery((i-1) * 9, 9);
+                            request.setAttribute("list", list);
+                            request.setAttribute("pagesize", length);
+                            try {
+                                request.getRequestDispatcher("/infoTable.jsp?page=" + i).forward(request, response);
+
+                            } catch (ServletException | IOException e) {
+                                e.printStackTrace();
+                            }
+                            return;
+                        }
+                        List<User> list = dao.limitQuery(i * 9, 9);
                         request.setAttribute("list", list);
                         request.setAttribute("pagesize", length);
                         try {
@@ -75,7 +86,9 @@ public class ServletApplication extends HttpServlet {
                         } catch (ServletException | IOException e) {
                             e.printStackTrace();
                         }
+                        return;
                     }
+
                 }
                 List<User> list = dao.limitQuery(9, 9);
                 request.setAttribute("list", list);
@@ -97,13 +110,33 @@ public class ServletApplication extends HttpServlet {
                         request.setAttribute("list", listP);
                         request.setAttribute("pagesize", length);
                         request.getRequestDispatcher("/infoTable.jsp?page=" + p).forward(request, response);
+                        return;
                     }
                     List<User> listP = dao.limitQuery((--p-1) * 9, 9);
                     request.setAttribute("list", listP);
                     request.setAttribute("pagesize", length);
                     request.getRequestDispatcher("/infoTable.jsp?page=" + p).forward(request, response);
+                    return;
 
                 }
+                List<User> listP = dao.limitQuery(0, 9);
+                request.setAttribute("list", listP);
+                request.setAttribute("pagesize", length);
+                request.getRequestDispatcher("/infoTable.jsp?page=" +1).forward(request, response);
+                break;
+
+            case "firstPage":
+                List<User> firstPageList = dao.limitQuery(0, 9);
+                request.setAttribute("list", firstPageList);
+                request.setAttribute("pagesize", length);
+                request.getRequestDispatcher("/infoTable.jsp?page=" +1).forward(request, response);
+                break;
+
+            case "lastPage":
+                List<User> lastPageList = dao.limitQuery((length-1)*9, 9);
+                request.setAttribute("list", lastPageList);
+                request.setAttribute("pagesize", length);
+                request.getRequestDispatcher("/infoTable.jsp?page=" +length).forward(request, response);
                 break;
         }
 

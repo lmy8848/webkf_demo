@@ -33,11 +33,11 @@
             window.location.href="<%=request.getContextPath()%>/addUser.jsp?title=添加用户&mark=add";
         }
 
-        function checkbtn(o) {
+        function checkin(o) {
 
         }
-        function allcheckbtn(o) {
-
+        function allCheckBtn(o) {
+            
         }
 
         function Previous() {
@@ -47,11 +47,18 @@
         function next() {
             window.location.href="<%=request.getContextPath()%>/main.do?page=${param.page}&name=limitquery";
         }
+        
+        function firstPage() {
+            window.location.href="<%=request.getContextPath()%>/main.do?page=${param.page}&name=firstPage";
+        }
+        function lastPage() {
+            window.location.href="<%=request.getContextPath()%>/main.do?page=${param.page}&name=lastPage";
+        }
+
     </script>
 </head>
 <body>
 <script src="<%=request.getContextPath()%>/layui/layui/layui.js">
-
 </script>
 <% int size = 0; %>
 
@@ -61,7 +68,7 @@
 <form action="#" method="post" id="userlist">
     <table class="layui-table">
         <tr id="item<%=size++%>">
-            <th><input type="checkbox" onclick="allcheckbtn(this)">全选</th>
+            <th><input type="checkbox" onclick="allCheckBtn(this)">全选</th>
             <th><b>编号</b></th>
             <th>userID</th>
             <th>name</th>
@@ -75,7 +82,7 @@
         </tr>
         <% for (User user : list) {%>
         <tr id="item<%=size++%>">
-            <td><input type="checkbox" id="check<%=size-1%>" onclick="checkbtn(this)"></td>
+            <td><input type="checkbox" id="check<%=size-1%>" onclick="checkin(this)"></td>
             <td><b></b><%=size-1%></td>
             <td><input class="data<%=size-1%>" disabled="disabled" type="text" value="<%=user.getUserId()%>"></td>
             <td><input class="data<%=size-1%>" disabled="disabled" type="text" value="<%=user.getName()%>"></td>
@@ -104,6 +111,7 @@
     <input id="field8" type="hidden" name="mark" value="">
 </form>
 <div>
+    <button class="layui-btn layui-btn-lg" onclick="firstPage()">首页</button>
     <button type="button" class="layui-btn" onclick="Previous()">
         <i class="layui-icon layui-icon-left"></i>
     </button>
@@ -111,6 +119,7 @@
     <button type="button" class="layui-btn" onclick="next()">
         <i class="layui-icon layui-icon-right"></i>
     </button>
+    <button class="layui-btn layui-btn-lg" onclick="lastPage()">尾页</button>
     <button class="layui-btn layui-btn-lg" onclick="addUser(this)">添加用户</button>
 </div>
 
