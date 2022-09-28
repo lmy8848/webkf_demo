@@ -67,7 +67,7 @@ public class ServletApplication extends HttpServlet {
                     i = Integer.parseInt(page);
                     if (i != 1) {
                         if (i==length){
-                            List<User> list = dao.limitQuery((i-1) * 9, 9);
+                            List<User> list = dao.limitQuery((i-1) * 7, 7);
                             request.setAttribute("list", list);
                             request.setAttribute("pagesize", length);
                             try {
@@ -78,7 +78,7 @@ public class ServletApplication extends HttpServlet {
                             }
                             return;
                         }
-                        List<User> list = dao.limitQuery(i * 9, 9);
+                        List<User> list = dao.limitQuery(i * 7, 7);
                         request.setAttribute("list", list);
                         request.setAttribute("pagesize", length);
                         try {
@@ -90,7 +90,7 @@ public class ServletApplication extends HttpServlet {
                     }
 
                 }
-                List<User> list = dao.limitQuery(9, 9);
+                List<User> list = dao.limitQuery(7, 7);
                 request.setAttribute("list", list);
                 request.setAttribute("pagesize", length);
                 i = 1;
@@ -106,34 +106,34 @@ public class ServletApplication extends HttpServlet {
                 if (previous != null && !previous.equals("")) {
                     int p = Integer.parseInt(previous);
                     if (p == 1) {
-                        List<User> listP = dao.limitQuery(0, 9);
+                        List<User> listP = dao.limitQuery(0, 7);
                         request.setAttribute("list", listP);
                         request.setAttribute("pagesize", length);
                         request.getRequestDispatcher("/infoTable.jsp?page=" + p).forward(request, response);
                         return;
                     }
-                    List<User> listP = dao.limitQuery((--p-1) * 9, 9);
+                    List<User> listP = dao.limitQuery((--p-1) * 7, 7);
                     request.setAttribute("list", listP);
                     request.setAttribute("pagesize", length);
                     request.getRequestDispatcher("/infoTable.jsp?page=" + p).forward(request, response);
                     return;
 
                 }
-                List<User> listP = dao.limitQuery(0, 9);
+                List<User> listP = dao.limitQuery(0, 7);
                 request.setAttribute("list", listP);
                 request.setAttribute("pagesize", length);
                 request.getRequestDispatcher("/infoTable.jsp?page=" +1).forward(request, response);
                 break;
 
             case "firstPage":
-                List<User> firstPageList = dao.limitQuery(0, 9);
+                List<User> firstPageList = dao.limitQuery(0, 7);
                 request.setAttribute("list", firstPageList);
                 request.setAttribute("pagesize", length);
                 request.getRequestDispatcher("/infoTable.jsp?page=" +1).forward(request, response);
                 break;
 
             case "lastPage":
-                List<User> lastPageList = dao.limitQuery((length-1)*9, 9);
+                List<User> lastPageList = dao.limitQuery((length-1)*7, 7);
                 request.setAttribute("list", lastPageList);
                 request.setAttribute("pagesize", length);
                 request.getRequestDispatcher("/infoTable.jsp?page=" +length).forward(request, response);
@@ -145,9 +145,9 @@ public class ServletApplication extends HttpServlet {
 
     public void inQuire(HttpServletRequest request, HttpServletResponse response) {
         List<User> select = dao.select();
-        length = (int) (Math.ceil(select.size() / 9.0));
+        length = (int) (Math.ceil(select.size() / 7.0));
         request.setAttribute("pagesize", length);
-        request.setAttribute("list", dao.limitQuery(0, 9));
+        request.setAttribute("list", dao.limitQuery(0, 7));
         try {
             request.getRequestDispatcher("/infoTable.jsp").forward(request, response);
         } catch (ServletException | IOException e) {

@@ -16,7 +16,6 @@ td{
     border: 1px solid black;
     width: auto;
     height: 77px;
-    padding: 10px;
 }
 td:hover{
     background: #00f7de;

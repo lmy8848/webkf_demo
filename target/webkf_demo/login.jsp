@@ -1,9 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
-    <script src="../jquery-3.5.1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery-3.5.1.js" type="text/javascript" charset="utf-8"></script>
     <style>
         #login {
             width: 100%;

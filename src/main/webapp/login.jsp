@@ -1,9 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
-    <script src="../jquery-3.5.1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery-3.5.1.js" type="text/javascript" charset="utf-8"></script>
     <style>
         #login {
             width: 100%;
@@ -107,7 +108,7 @@
             <br>
             <input type="text" class="input" onkeyup="this.value=this.value.replace(/[^\w_]/g,'')" name="password" property="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$" onkeyup="this.value=this.value.replace(/[^\w_]/g,'')" oninput="if(value.length>22)value=value.slice(0,22)">
         </p>
-        <p style="display: inline"><a href="register.html"><h3>还没有账号？去注册</h3></a></p>
+        <p style="display: inline"><a href="register.jsp"><h3>还没有账号？去注册</h3></a></p>
         <p><input type="button" class="commit" value="登录" onclick=javascript:f()></p>
     </form>
 

@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.crud.webkf.bean.User" %>
-<%@page isELIgnored = "false" %>
+<%@page isELIgnored="false" %>
 <%--
   Created by IntelliJ IDEA.
   User: NJQ-PC
@@ -21,38 +21,40 @@
     <script src="jquery-3.5.1.js">
     </script>
     <script>
-        function del(o,id) {
+        function del(o, id) {
             console.log(id);
             const element = o.parentElement.parentElement;
             const number = parseInt(element.id.replace("item", ""));
             window.location.reload();
-            window.location.href="<%=request.getContextPath()%>/main.do?name=delete&id="+id;
+            window.location.href = "<%=request.getContextPath()%>/main.do?name=delete&id=" + id;
         }
 
         function addUser(o) {
-            window.location.href="<%=request.getContextPath()%>/addUser.jsp?title=添加用户&mark=add";
+            window.location.href = "<%=request.getContextPath()%>/addUser.jsp?title=添加用户&mark=add";
         }
 
         function checkin(o) {
 
         }
+
         function allCheckBtn(o) {
-            
+
         }
 
         function Previous() {
-            window.location.href="<%=request.getContextPath()%>/main.do?page=${param.page}&name=Previous";
+            window.location.href = "<%=request.getContextPath()%>/main.do?page=${param.page}&name=Previous";
         }
 
         function next() {
-            window.location.href="<%=request.getContextPath()%>/main.do?page=${param.page}&name=limitquery";
+            window.location.href = "<%=request.getContextPath()%>/main.do?page=${param.page}&name=limitquery";
         }
-        
+
         function firstPage() {
-            window.location.href="<%=request.getContextPath()%>/main.do?page=${param.page}&name=firstPage";
+            window.location.href = "<%=request.getContextPath()%>/main.do?page=${param.page}&name=firstPage";
         }
+
         function lastPage() {
-            window.location.href="<%=request.getContextPath()%>/main.do?page=${param.page}&name=lastPage";
+            window.location.href = "<%=request.getContextPath()%>/main.do?page=${param.page}&name=lastPage";
         }
 
     </script>
@@ -65,6 +67,40 @@
 <%
     List<User> list = (List<User>) request.getAttribute("list");
 %>
+
+<form action="#" class="layui-form layui-form-pane" lay-filter="example">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="number" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">积分</label>
+            <div class="layui-input-inline">
+                <input type="number" name="number" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <input type="number" name="number" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">编号</label>
+            <div class="layui-input-inline">
+                <input type="number" name="number" autocomplete="off" class="layui-input" maxlength="3">
+            </div>
+        </div>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="男" title="男" checked="">
+            <input type="radio" name="sex" value="女" title="女">
+        </div>
+    </div>
+    <button type="button" class="layui-btn layui-btn-fluid"><b>查询</b></button>
+
+</form>
 <form action="#" method="post" id="userlist">
     <table class="layui-table">
         <tr id="item<%=size++%>">
@@ -83,7 +119,8 @@
         <% for (User user : list) {%>
         <tr id="item<%=size++%>">
             <td><input type="checkbox" id="check<%=size-1%>" onclick="checkin(this)"></td>
-            <td><b></b><%=size-1%></td>
+            <td><b></b><%=size - 1%>
+            </td>
             <td><input class="data<%=size-1%>" disabled="disabled" type="text" value="<%=user.getUserId()%>"></td>
             <td><input class="data<%=size-1%>" disabled="disabled" type="text" value="<%=user.getName()%>"></td>
             <td><input class="data<%=size-1%>" disabled="disabled" type="text" value="<%=user.getEname()%>"></td>
@@ -92,8 +129,8 @@
             <td><input class="data<%=size-1%>" disabled="disabled" type="text" value="<%=user.getCredit()%>"></td>
             <td><input class="data<%=size-1%>" disabled="disabled" type="text" value="<%=user.getCity()%>"></td>
             <td>
-                <input  class="layui-btn" type="button" value="修改" onclick="x(this)">
-                <input  class="layui-btn" type="button" value="删除" onclick="del(this,<%=user.getUserId()%>)">
+                <input class="layui-btn" type="button" value="修改" onclick="x(this)">
+                <input class="layui-btn" type="button" value="删除" onclick="del(this,<%=user.getUserId()%>)">
             </td>
         </tr>
 
@@ -127,8 +164,9 @@
 <script>
     let nodeListOf = document.querySelectorAll("input");
     for (let x of nodeListOf) {
-        x.disable=true;
+        x.disable = true;
     }
+
     function x(o) {
         <% request.setCharacterEncoding("UTF-8");%>
         const element = o.parentElement.parentElement;
@@ -136,10 +174,10 @@
         const number = parseInt(element.id.replace("item", ""));
         let elementsByClassName = document.getElementsByClassName("data" + number);
         let i;
-        for (i = 0; i <elementsByClassName.length; i++) {
-            document.getElementById("field" + (i+1)).value=elementsByClassName[i].value;
+        for (i = 0; i < elementsByClassName.length; i++) {
+            document.getElementById("field" + (i + 1)).value = elementsByClassName[i].value;
         }
-        document.getElementById("field" + (i+1)).value="update";
+        document.getElementById("field" + (i + 1)).value = "update";
         field.submit();
     }
 </script>

@@ -1,5 +1,6 @@
 package com.crud.webkf.dao;
 
+import com.crud.webkf.bean.Acconut;
 import com.crud.webkf.bean.User;
 import com.crud.webkf.util.MySQL_JDBC_Util;
 
@@ -135,4 +136,51 @@ public class DaoImp implements Dao {
             list.add(user);
         }
     }
+    @Override
+    public Acconut loginAcconut(String username){
+        Connection conn = MySQL_JDBC_Util.Conn();
+        Acconut acconut=new Acconut();
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("select id,password,token from acconut where username=?");
+            preparedStatement.setString(1,username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                acconut.setId(resultSet.getInt("id"));
+                acconut.setPassword(resultSet.getString("password"));
+                acconut.setToken(resultSet.getString("token"));
+                acconut.setUsername(username);
+            }
+            return acconut;
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public boolean register(String username,String password,String token){
+        Connection conn = MySQL_JDBC_Util.Conn();
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("insert into acconut(id,username,password,token) value(default,?,?,?) ");
+            return preparedStatement.execute();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+            return false;
+        }
+    }
+    @Override
+    public int updateToken(String username,String token){
+        Connection conn = MySQL_JDBC_Util.Conn();
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement("update acconut set token=? where username=?");
+            preparedStatement.setString(1,token);
+            preparedStatement.setString(2,username);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+            return 0;
+        }
+
+    }
+
 }
