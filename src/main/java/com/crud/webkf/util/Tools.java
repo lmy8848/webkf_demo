@@ -7,7 +7,7 @@ import java.util.Enumeration;
 
 public class Tools {
 
-    public static Object getParamter(Class c, HttpServletRequest request){
+    public static Object getParameter(Class c, HttpServletRequest request){
         Object o=null;
         Field f=null;
         try{

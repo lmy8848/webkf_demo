@@ -1,8 +1,10 @@
 package com.crud.webkf;
 
+import com.crud.webkf.bean.Acconut;
 import com.crud.webkf.bean.User;
 import com.crud.webkf.dao.Dao;
 import com.crud.webkf.dao.DaoImp;
+import com.crud.webkf.util.MD5;
 import com.crud.webkf.util.Tools;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,41 +35,38 @@ public class ServletApplication extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("name");
         switch (name) {
-            case "select":
-                inQuire(request, response);
-                break;
-            case "update":
+            case "select" -> inQuire(request, response);
+            case "update" -> {
                 System.out.println("修改数据UPDATE");
-                User paramterUpdate = (User) Tools.getParamter(User.class, request);
+                User paramterUpdate = (User) Tools.getParameter(User.class, request);
                 paramterUpdate.setName(request.getParameter("addname"));
                 System.out.println(dao.update(paramterUpdate));
                 response.sendRedirect("/main.do?name=select");
-                break;
-            case "delete":
+            }
+            case "delete" -> {
                 String id = request.getParameter("id");
                 User user = new User();
                 user.setUserId(id);
                 boolean delete = dao.delete(user);
                 System.out.println("删除DEL" + id + "is" + delete);
                 inQuire(request, response);
-                break;
-
-            case "add":
+            }
+            case "add" -> {
                 request.setCharacterEncoding("UTF-8");
-                User paramter = (User) Tools.getParamter(User.class, request);
+                User paramter = (User) Tools.getParameter(User.class, request);
                 paramter.setName(request.getParameter("addname"));
                 boolean add = dao.add(paramter);
                 System.out.println("add:" + add);
                 response.sendRedirect("/main.do?name=select");
-                break;
-            case "limitquery":
+            }
+            case "limitquery" -> {
                 String page = request.getParameter("page");
                 int i;
                 if (page != null && !page.equals("")) {
                     i = Integer.parseInt(page);
                     if (i != 1) {
-                        if (i==length){
-                            List<User> list = dao.limitQuery((i-1) * 7, 7);
+                        if (i == length) {
+                            List<User> list = dao.limitQuery((i - 1) * 7, 7);
                             request.setAttribute("list", list);
                             request.setAttribute("pagesize", length);
                             try {
@@ -99,9 +98,8 @@ public class ServletApplication extends HttpServlet {
                 } catch (ServletException | IOException e) {
                     e.printStackTrace();
                 }
-                break;
-
-            case "Previous":
+            }
+            case "Previous" -> {
                 String previous = request.getParameter("page");
                 if (previous != null && !previous.equals("")) {
                     int p = Integer.parseInt(previous);
@@ -112,7 +110,7 @@ public class ServletApplication extends HttpServlet {
                         request.getRequestDispatcher("/infoTable.jsp?page=" + p).forward(request, response);
                         return;
                     }
-                    List<User> listP = dao.limitQuery((--p-1) * 7, 7);
+                    List<User> listP = dao.limitQuery((--p - 1) * 7, 7);
                     request.setAttribute("list", listP);
                     request.setAttribute("pagesize", length);
                     request.getRequestDispatcher("/infoTable.jsp?page=" + p).forward(request, response);
@@ -122,22 +120,37 @@ public class ServletApplication extends HttpServlet {
                 List<User> listP = dao.limitQuery(0, 7);
                 request.setAttribute("list", listP);
                 request.setAttribute("pagesize", length);
-                request.getRequestDispatcher("/infoTable.jsp?page=" +1).forward(request, response);
-                break;
-
-            case "firstPage":
+                request.getRequestDispatcher("/infoTable.jsp?page=" + 1).forward(request, response);
+            }
+            case "firstPage" -> {
                 List<User> firstPageList = dao.limitQuery(0, 7);
                 request.setAttribute("list", firstPageList);
                 request.setAttribute("pagesize", length);
-                request.getRequestDispatcher("/infoTable.jsp?page=" +1).forward(request, response);
-                break;
-
-            case "lastPage":
-                List<User> lastPageList = dao.limitQuery((length-1)*7, 7);
+                request.getRequestDispatcher("/infoTable.jsp?page=" + 1).forward(request, response);
+            }
+            case "lastPage" -> {
+                List<User> lastPageList = dao.limitQuery((length - 1) * 7, 7);
                 request.setAttribute("list", lastPageList);
                 request.setAttribute("pagesize", length);
-                request.getRequestDispatcher("/infoTable.jsp?page=" +length).forward(request, response);
-                break;
+                request.getRequestDispatcher("/infoTable.jsp?page=" + length).forward(request, response);
+            }
+            case "login" ->{
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                Acconut acconut = dao.loginAcconut(username);
+                if (acconut!=null){
+                    if (MD5.md5_2(password).equals(acconut.getPassword())){
+                        response.sendRedirect("/main.do?name=select");
+                    }else{
+                        response.setCharacterEncoding("UTF-8");
+                        response.sendRedirect("/login.jsp?err=ThePasswordIsIncorrect");
+
+                    }
+                    return;
+                }
+                response.setCharacterEncoding("UTF-8");
+                response.sendRedirect("/login.jsp?err=notAcconut");
+            }
         }
 
 

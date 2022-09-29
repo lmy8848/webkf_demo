@@ -1,10 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% request.setCharacterEncoding("UTF-8");%>
+<% response.setCharacterEncoding("UTF-8");%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
+    <link href="<%=request.getContextPath()%>/layui/layui/css/layui.css" rel="stylesheet">
+    <script src="<%=request.getContextPath()%>/layui/layui/layui.js"></script>
     <script src="jquery-3.5.1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="<%=request.getContextPath()%>/utils/tools.js"></script>
     <style>
         #login {
             width: 100%;
@@ -82,11 +89,9 @@
         }
 
         .copyright {
-            color: #ffffff;
-            font-family: 黑体;
-            font-style: italic;
+            color: #f50000;
             font-weight: bold;
-            font-size: 25px;
+            font-size: 30px;
         }
     </style>
 </head>
@@ -94,7 +99,7 @@
 <div id="login" align="center">
     <h1 class="logo">用户登录</h1>
     <h1 class="computer"><a href="#"><img id="bg" src="/img/computer.png" alt=""></a></h1>
-    <form action="#" id="login_form" name="userform">
+    <form action="<%=request.getContextPath()%>/main.do?name=login" id="login_form" name="userform" method="post">
         <p>
             <lable class="text">用户名</lable>
             <br>
@@ -112,31 +117,11 @@
         <p><input type="button" class="commit" value="登录" onclick=javascript:f()></p>
     </form>
 
-    <h5 class="copyright">QJ315@copyright</h5>
+    <h5 class="copyright">${param.err}</h5>
 </div>
 <script type="text/javascript" language="JavaScript">
     function f() {
-        let formElements = document.forms["userform"]["username"].value;
-        let formElemental = document.forms["userform"]["password"].value;
-        console.log(formElemental);
-        if (formElements == null || formElements === "") {
-            alert("用户名输入为空！");
-        } else if (formElemental == null || formElemental === "") {
-            alert("密码输入为空！");
-        } else {
-            if (formElements === "admin" && formElemental === "admin") {
-                // window.location.href='/index.html';
-                alert("登录成功！");
-                window.location.href = "/index.html";
-                // window.location.href("./index.html");
-                // window.open("./index.html");
-                // window.location.href="index.html";
-            } else {
-                alert("登录失败，用户名密码错误！");
-            }
-
-        }
-
+        $("#login_form").submit();
     }
 </script>
 
